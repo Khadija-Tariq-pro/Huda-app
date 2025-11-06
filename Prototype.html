@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huda - Digital Conduct & Purity Guardian</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes loading {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #064e3b 0%, #0f766e 50%, #0891b2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .splash-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+        }
+
+        .splash-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .splash-subtitle {
+            font-size: 1.25rem;
+            color: #a7f3d0;
+            margin-bottom: 0.5rem;
+        }
+
+        .splash-tagline {
+            font-size: 0.875rem;
+            color: #d1fae5;
+            font-style: italic;
+            max-width: 400px;
+            margin: 0 auto 3rem;
+        }
+
+        .loading-bar {
+            width: 192px;
+            height: 4px;
+            background: #047857;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: #a7f3d0;
+            border-radius: 9999px;
+            animation: loading 2.5s ease-in-out;
+        }
+
+        .loading-text {
+            font-size: 0.875rem;
+            color: #a7f3d0;
+            margin-top: 1rem;
+        }
+        .bottom-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    z-index: 50;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.nav-item.active,
+.nav-item:hover {
+    color: #059669;
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+        /* Onboarding */
+        .onboarding-screen {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #ffffff, #ecfdf5);
+            padding: 2rem 1.5rem;
+        }
+
+        .onboarding-container {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            margin: 0 4px;
+            background: #d1d5db;
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #059669;
+            width: 32px;
+        }
+
+        .progress-dot.completed {
+            background: #6ee7b7;
+        }
+
+        .onboarding-content {
+            text-align: center;
+        }
+
+        .onboarding-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.5rem;
+            color: #059669;
+        }
+
+        .onboarding-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .onboarding-text {
+            font-size: 1.125rem;
+            color: #374151;
+            line-height: 1.75;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .illustration-box {
+            background: linear-gradient(to right, #d1fae5, #ccfbf1);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+
+        .illustration-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            color: #059669;
+        }
+
+        .illustration-text {
+            font-size: 0.875rem;
+            color: #4b5563;
+            font-style: italic;
+        }
+
+        .btn-primary {
+            width: 100%;
+            max-width: 448px;
+            margin: 0 auto;
+            display: block;
+            background: #059669;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: #047857;
+        }
+
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            max-width: 448px;
+            margin: 0.75rem auto 0;
+            display: block;
+            background: transparent;
+            color: #047857;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #ecfdf5;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+            max-width: 448px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            padding-top: 0.5rem;
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #059669;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        .info-badge {
+            background: #d1fae5;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            max-width: 448px;
+            margin: 0 auto;
+        }
+
+        .info-badge-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.75rem;
+            color: #059669;
+        }
+
+        .info-badge-text {
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        /* Dashboard */
+        .dashboard-screen {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #ecfdf5, #ffffff);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(to right, #059669, #0d9488);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0 0 1.5rem 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header-content {
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+
+        .dashboard-greeting {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .daily-reminder {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .daily-reminder-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .daily-reminder-text {
+            font-size: 1.125rem;
+            font-style: italic;
+        }
+
+        .dashboard-content {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-card-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.75rem;
+            transition: transform 0.2s;
+        }
+
+        .dashboard-card:hover .dashboard-card-icon {
+            transform: scale(1.1);
+        }
+
+        .dashboard-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-card-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .dashboard-card-arrow {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+        }
+
+        .dashboard-card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .badge-inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .demo-section {
+            background: linear-gradient(to right, #fef3c7, #fed7aa);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #fbbf24;
+            margin-top: 2rem;
+        }
+
+        .demo-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #78350f;
+            margin-bottom: 1rem;
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .demo-btn {
+            background: white;
+            color: #92400e;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .demo-btn:hover {
+            background: #fef3c7;
+        }
+
+        .footer-quote {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            font-style: italic;
+            padding: 2rem 0 1rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            z-index: 50;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 448px;
+            width: 100%;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .modal-text {
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .modal-verse {
+            background: #ecfdf5;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid #059669;
+            margin: 1rem 0;
+        }
+
+        .modal-verse-text {
+            font-size: 0.875rem;
+            color: #1f2937;
+            font-style: italic;
+        }
+
+        .modal-verse-source {
+            display: block;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .alert-icon-wrapper {
+            width: 64px;
+            height: 64px;
+            background: #fee2e2;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            color: #dc2626;
+        }
+
+        .modal-center-text {
+            text-align: center;
+            color: #374151;
+            margin: 1rem 0;
+        }
+
+        .modal-emphasis {
+            text-align: center;
+            color: #4b5563;
+            font-weight: 500;
+            margin: 1rem 0;
+        }
+
+        /* Other Screens */
+        .screen-container {
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #fef2f2, #ffffff);
+            padding: 1.5rem;
+        }
+
+        .screen-container.blue {
+            background: linear-gradient(to bottom, #eff6ff, #ffffff);
+        }
+
+        .screen-container.purple {
+            background: linear-gradient(to bottom, #faf5ff, #ffffff);
+        }
+
+        .screen-content {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            color: #047857;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .back-button:hover {
+            color: #065f46;
+        }
+
+        .screen-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .screen-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: #fecaca;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .screen-icon-wrapper.blue {
+            background: #bfdbfe;
+        }
+
+        .screen-icon-wrapper.purple {
+            background: #e9d5ff;
+        }
+
+        .screen-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        .screen-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen-subtitle {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .reflection-box {
+            background: linear-gradient(to right, #d1fae5, #ccfbf1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #6ee7b7;
+            margin: 1.5rem 0;
+        }
+
+        .reflection-icon {
+            width: 40px;
+            height: 40px;
+            color: #059669;
+            margin: 0 auto 1rem;
+        }
+
+        .reflection-text {
+            color: #1f2937;
+            font-style: italic;
+            font-size: 1.125rem;
+            text-align: center;
+        }
+
+        .reflection-source {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-top: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number.blue { color: #2563eb; }
+        .stat-number.amber { color: #d97706; }
+        .stat-number.red { color: #dc2626; }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .encouragement-box {
+            background: linear-gradient(to right, #d1fae5, #ccfbf1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #6ee7b7;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .encouragement-text {
+            font-size: 1.125rem;
+            color: #1f2937;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .encouragement-tip {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .settings-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-item-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-item-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .version-text {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 2rem;
+        }
+
+        .reflection-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .reflection-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .reflection-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .reflection-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .reflection-date {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        .reflection-type {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: #d1fae5;
+            color: #047857;
+            border-radius: 9999px;
+        }
+
+        .reflection-quote {
+            color: #1f2937;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .closing-message {
+            background: linear-gradient(to right, #d1fae5, #ccfbf1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #6ee7b7;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .closing-main {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .closing-sub {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* SVG Icons */
+        .icon {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bottom Navigation Bar -->
+<div class="bottom-nav">
+    <button class="nav-item" onclick="showScreen('dashboard')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        <span>Home</span>
+    </button>
+
+    <button class="nav-item" onclick="toggleSafeBrowsing()">
+        <svg class="nav-icon" id="safeBrowsingIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span>Safe Mode</span>
+    </button>
+
+    <button class="nav-item" onclick="showScreen('familySummary')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        </svg>
+        <span>Family</span>
+    </button>
+
+    <button class="nav-item" onclick="showScreen('settings')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m0 0l-4.242 4.243m4.242-4.243l-4.243-4.242"></path>
+        </svg>
+        <span>Settings</span>
+    </button>
+</div>
+
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen animate-fade-in">
+        <svg class="splash-icon animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <h1 class="splash-title">Huda</h1>
+        <p class="splash-subtitle">Digital Conduct & Purity Guardian</p>
+        <p class="splash-tagline">Guiding your online life with faith and mindfulness.</p>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <p class="loading-text">Initializing protection…</p>
+    </div>
+
+    <!-- Onboarding Screens -->
+    <div id="onboardingScreen" class="onboarding-screen hidden">
+        <div class="onboarding-container">
+            <div class="progress-dots" id="progressDots"></div>
+            
+            <div id="onboardingContent" class="onboarding-content animate-slide-up"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboardScreen" class="dashboard-screen hidden">
+        <div class="dashboard-header">
+            <div class="dashboard-header-content">
+                <h1 class="dashboard-greeting" id="dashboardGreeting">Assalamu Alaikum! 🌿</h1>
+                <div class="daily-reminder">
+                    <p class="daily-reminder-label">Today's Reminder:</p>
+                    <p class="daily-reminder-text">"Speak good or remain silent." — Prophet Muhammad ﷺ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="card-grid">
+                <button class="dashboard-card" onclick="showScreen('reflections')">
+                    <svg class="dashboard-card-icon" style="color: #f43f5e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <h3 class="dashboard-card-title">My Reflections</h3>
+                    <p class="dashboard-card-text">Review reminders and Quranic inspirations</p>
+                    <svg style="width: 20px; height: 20px; color: #9ca3af;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <p class="demo-label">📱 Try Demo Features:</p>
+                <div class="demo-buttons">
+                    <button class="demo-btn" onclick="showModal('ghibah')">
+                        Simulate Ghibah Detection Alert
+                    </button>
+                    <button class="demo-btn" onclick="showModal('contentBlock')">
+                        Simulate Content Block Screen
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-quote">
+                "The tongue is small but it can build or break hearts. Choose words wisely."
+            </div>
+        </div>
+    </div>
+
+    <!-- Reflections Screen -->
+    <div id="reflectionsScreen" class="screen-container hidden">
+        <div class="screen-content">
+            <button class="back-button" onclick="showScreen('dashboard')">← Back to Dashboard</button>
+            
+            <div class="screen-header">
+                <div class="screen-icon-wrapper">
+                    <svg class="screen-icon" style="color: #f43f5e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h2 class="screen-title">My Reflections</h2>
+                <p class="screen-subtitle">Your journey of mindful communication</p>
+            </div>
+
+            <div class="reflection-list">
+                <div class="reflection-item">
+                    <div class="reflection-item-header">
+                        <span class="reflection-date">Today</span>
+                        <span class="reflection-type">Daily Reminder</span>
+                    </div>
+                    <p class="reflection-quote">"Speak good or remain silent"</p>
+                </div>
+
+                <div class="reflection-item">
+                    <div class="reflection-item-header">
+                        <span class="reflection-date">Yesterday</span>
+                        <span class="reflection-type">Ghibah Alert</span>
+                    </div>
+                    <p class="reflection-quote">"Guard your tongue and lower your gaze"</p>
+                </div>
+
+                <div class="reflection-item">
+                    <div class="reflection-item-header">
+                        <span class="reflection-date">2 days ago</span>
+                        <span class="reflection-type">Reflection</span>
+                    </div>
+                    <p class="reflection-quote">"Words are a trust from Allah"</p>
+                </div>
+            </div>
+
+            <div class="closing-message">
+                <p class="closing-main">🌸 "Purify your speech, and Allah will purify your heart."</p>
+                <p class="closing-sub">You're one step closer to a mindful, faith-driven digital life.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Family Summary Screen -->
+    <div id="familySummaryScreen" class="screen-container blue hidden">
+        <div class="screen-content">
+            <button class="back-button" onclick="showScreen('dashboard')">← Back to Dashboard</button>
+            
+            <div class="screen-header">
+                <div class="screen-icon-wrapper blue">
+                    <svg class="screen-icon" style="color: #2563eb;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h2 class="screen-title">Family Progress Summary</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p class="stat-number blue">120</p>
+                    <p class="stat-label">Messages Analyzed</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-number amber">8</p>
+                    <p class="stat-label">Reflections Triggered</p>
+                </div>
+                <div class="stat-card">
+                    <p class="stat-number red">3</p>
+                    <p class="stat-label">Harmful Content Blocked</p>
+                </div>
+            </div>
+
+            <div class="encouragement-box">
+                <p class="encouragement-text">"Small steps toward digital purity lead to lasting peace."</p>
+                <p class="encouragement-tip">💡 Tip: Try setting family reflection time once a week.</p>
+            </div>
+
+            <button class="btn-primary" style="margin-top: 1.5rem;">
+                View Detailed Insights
+            </button>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen-container purple hidden">
+        <div class="screen-content">
+            <button class="back-button" onclick="showScreen('dashboard')">← Back to Dashboard</button>
+            
+            <div class="screen-header">
+                <div class="screen-icon-wrapper purple">
+                    <svg class="screen-icon" style="color: #a855f7;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3m15.364 6.364l-4.243-4.243m0 0l-4.242 4.243m4.242-4.243l-4.243-4.242"></path>
+                    </svg>
+                </div>
+                <h2 class="screen-title">Settings</h2>
+            </div>
+
+            <div class="settings-list">
+                <div class="settings-item">
+                    <h3 class="settings-item-title">Reminders</h3>
+                    <p class="settings-item-text">Enable/disable Ghibah alerts and reflections</p>
+                </div>
+
+                <div class="settings-item">
+                    <h3 class="settings-item-title">Safe Browsing</h3>
+                    <p class="settings-item-text">Manage DNS and filtering preferences</p>
+                </div>
+
+                <div class="settings-item">
+                    <h3 class="settings-item-title">Languages</h3>
+                    <p class="settings-item-text">English / Urdu / Arabic</p>
+                </div>
+
+                <div class="settings-item">
+                    <h3 class="settings-item-title">Privacy</h3>
+                    <p class="settings-item-text">View data policy and permissions</p>
+                </div>
+
+                <div class="settings-item">
+                    <h3 class="settings-item-title">About</h3>
+                    <p class="settings-item-text">Learn about Huda's mission</p>
+                </div>
+            </div>
+
+            <p class="version-text">Version 1.0 (MVP) — Built with care and guided by faith.</p>
+        </div>
+    </div>
+
+    <!-- Reflection Modal Screen -->
+    <div id="reflectionModalScreen" class="screen-container hidden">
+        <div class="screen-content">
+            <button class="back-button" onclick="showScreen('dashboard')">← Back to Dashboard</button>
+            
+            <div class="screen-header">
+                <div class="screen-icon-wrapper">
+                    <svg class="screen-icon" style="color: #f43f5e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <h2 class="screen-title">Reflection Moment 🌸</h2>
+            </div>
+
+            <p class="onboarding-text" style="margin-bottom: 2rem;">
+                Words shape hearts. Take a deep breath and rephrase your message with kindness.
+            </p>
+
+            <div class="reflection-box">
+                <svg class="reflection-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <p class="reflection-text">
+                    "Whoever believes in Allah and the Last Day should speak good or remain silent."
+                </p>
+                <p class="reflection-source">— Hadith (Bukhari & Muslim)</p>
+            </div>
+
+            <button class="btn-primary" onclick="showScreen('dashboard')">
+                Got it, Thank You
+            </button>
+            <button class="btn-secondary">
+                Learn More About Ghibah
+            </button>
+        </div>
+    </div>
+
+    <!-- Ghibah Alert Modal -->
+    <div id="ghibahModal" class="modal-overlay hidden" onclick="if(event.target === this) hideModal('ghibah')">
+        <div class="modal-content animate-slide-up">
+            <div class="modal-header" style="color: #d97706;">
+                <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <h3 class="modal-title">Potential Ghibah Detected</h3>
+            </div>
+            
+            <p class="modal-text">
+                It seems your message may include negative speech about someone.
+                Let's pause and reflect on the verse:
+            </p>
+            
+            <div class="modal-verse">
+                <p class="modal-verse-text">
+                    "Do not backbite one another. Would one of you like to eat the flesh of his brother?"
+                    <span class="modal-verse-source">— Surah Al-Hujurat 49:12</span>
+                </p>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="hideModal('ghibah'); showScreen('reflectionModal');">
+                    Reflect Now
+                </button>
+                <button class="btn-secondary" onclick="hideModal('ghibah')">
+                    Dismiss
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Block Modal -->
+    <div id="contentBlockModal" class="modal-overlay hidden" onclick="if(event.target === this) hideModal('contentBlock')">
+        <div class="modal-content animate-slide-up">
+            <div style="text-align: center;">
+                <div class="alert-icon-wrapper">
+                    <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h3 class="modal-title" style="font-size: 1.5rem; margin-bottom: 1rem;">🚫 Access Restricted</h3>
+            </div>
+            
+            <p class="modal-center-text">
+                This content contains material that conflicts with Islamic values of modesty and purity.
+            </p>
+            
+            <div class="modal-verse">
+                <p class="modal-verse-text">
+                    "Tell the believing men and women to lower their gaze and guard their modesty."
+                    <span class="modal-verse-source">— Surah An-Nur 24:30–31</span>
+                </p>
+            </div>
+            
+            <p class="modal-emphasis">
+                Keep your heart pure and your screen clean.
+            </p>
+            
+            <div class="modal-buttons">
+                <button class="btn-primary" onclick="hideModal('contentBlock')">
+                    Return to Safe Mode
+                </button>
+                <button class="btn-secondary" onclick="hideModal('contentBlock'); showScreen('reflectionModal');">
+                    Read Reflection Verse
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentScreen = 'splash';
+        let onboardingStep = 1;
+        let userName = '';
+        let safeBrowsingEnabled = true;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                showScreen('onboarding');
+            }, 2500);
+        });
+
+        // Screen Management
+        function showScreen(screen) {
+            // Hide all screens
+            document.querySelectorAll('[id$="Screen"]').forEach(el => el.classList.add('hidden'));
+            
+            // Show requested screen
+            currentScreen = screen;
+            
+            if (screen === 'splash') {
+                document.getElementById('splashScreen').classList.remove('hidden');
+            } else if (screen === 'onboarding') {
+                document.getElementById('onboardingScreen').classList.remove('hidden');
+                renderOnboarding();
+            } else if (screen === 'dashboard') {
+                document.getElementById('dashboardScreen').classList.remove('hidden');
+                if (userName) {
+                    document.getElementById('dashboardGreeting').textContent = `Assalamu Alaikum, ${userName}! 🌿`;
+                }
+            } else if (screen === 'reflections') {
+                document.getElementById('reflectionsScreen').classList.remove('hidden');
+            } else if (screen === 'familySummary') {
+                document.getElementById('familySummaryScreen').classList.remove('hidden');
+            } else if (screen === 'settings') {
+                document.getElementById('settingsScreen').classList.remove('hidden');
+            } else if (screen === 'reflectionModal') {
+                document.getElementById('reflectionModalScreen').classList.remove('hidden');
+            }
+        }
+
+        // Onboarding
+        function renderOnboarding() {
+            const dots = document.getElementById('progressDots');
+            const content = document.getElementById('onboardingContent');
+            
+            // Render progress dots
+            dots.innerHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i === onboardingStep) dot.classList.add('active');
+                if (i < onboardingStep) dot.classList.add('completed');
+                dots.appendChild(dot);
+            }
+            
+            // Render content based on step
+            if (onboardingStep === 1) {
+                content.innerHTML = `
+                    <svg class="onboarding-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <h2 class="onboarding-title">Welcome to Huda 🌙</h2>
+                    <p class="onboarding-text">
+                        Huda helps you and your family stay safe and spiritually aware online.
+                        It protects you from harmful speech and explicit content — while keeping your privacy secure.
+                    </p>
+                    <div style="padding-top: 2rem;">
+                        <button class="btn-primary" onclick="nextOnboarding()">Get Started</button>
+                        <button class="btn-secondary">Learn More</button>
+                    </div>
+                `;
+            } else if (onboardingStep === 2) {
+                content.innerHTML = `
+                    <svg class="onboarding-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <h2 class="onboarding-title">Your Digital Guardian</h2>
+                    <p class="onboarding-text">
+                        Online behavior matters.
+                        Huda encourages ethical communication by detecting gossip-like speech (Ghibah) and promoting good words inspired by Quran and Hadith.
+                    </p>
+                    <div class="illustration-box">
+                        <svg class="illustration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <p class="illustration-text">Person typing with mindful awareness</p>
+                    </div>
+                    <button class="btn-primary" onclick="nextOnboarding()">Next</button>
+                `;
+            } else if (onboardingStep === 3) {
+                content.innerHTML = `
+                    <svg class="onboarding-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <h2 class="onboarding-title">Family-Safe Browsing</h2>
+                    <p class="onboarding-text">
+                        Protect your family from explicit or vulgar material using a built-in DNS filter.
+                        Browse safely, stay pure, and focus on what benefits your soul.
+                    </p>
+                    <button class="btn-primary" onclick="nextOnboarding()">Next</button>
+                `;
+            } else if (onboardingStep === 4) {
+                content.innerHTML = `
+                    <svg class="onboarding-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <h2 class="onboarding-title">Your Privacy Matters</h2>
+                    <p class="onboarding-text">
+                        Huda never reads, stores, or uploads your personal messages.
+                        All detection and reminders happen securely on your device.
+                    </p>
+                    <div class="info-badge">
+                        <svg class="info-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <p class="info-badge-text">100% Local Processing</p>
+                    </div>
+                    <button class="btn-primary" onclick="nextOnboarding()">Continue</button>
+                `;
+            } else if (onboardingStep === 5) {
+                content.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <svg class="onboarding-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <h2 class="onboarding-title">Create Your Family Account</h2>
+                    </div>
+                    <div style="max-width: 448px; margin: 0 auto;">
+                        <div class="form-group">
+                            <label class="form-label">Parent Name</label>
+                            <input type="text" class="form-input" id="userNameInput" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Child Name(s)</label>
+                            <input type="text" class="form-input" id="childNamesInput" placeholder="Separate multiple names with commas">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email (optional)</label>
+                            <input type="email" class="form-input" id="emailInput" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" class="checkbox-input" id="agreeCheckbox">
+                                <label class="checkbox-label">
+                                    I agree to the privacy policy and understand that Huda only processes data locally.
+                                </label>
+                            </div>
+                        </div>
+                        <div style="padding-top: 1rem;">
+                            <button class="btn-primary" id="createAccountBtn" onclick="createAccount()" disabled>
+                                Create Account
+                            </button>
+                            <button class="btn-secondary" onclick="showScreen('dashboard')">
+                                Skip for Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listeners for form validation
+                setTimeout(() => {
+                    const nameInput = document.getElementById('userNameInput');
+                    const checkbox = document.getElementById('agreeCheckbox');
+                    const createBtn = document.getElementById('createAccountBtn');
+                    
+                    function validateForm() {
+                        if (nameInput.value.trim() && checkbox.checked) {
+                            createBtn.disabled = false;
+                        } else {
+                            createBtn.disabled = true;
+                        }
+                    }
+                    
+                    nameInput.addEventListener('input', validateForm);
+                    checkbox.addEventListener('change', validateForm);
+                }, 100);
+            }
+        }
+
+        function nextOnboarding() {
+            if (onboardingStep < 5) {
+                onboardingStep++;
+                renderOnboarding();
+            }
+        }
+
+        function createAccount() {
+            userName = document.getElementById('userNameInput').value.trim();
+            showScreen('dashboard');
+        }
+
+        // Safe Browsing Toggle
+        function toggleSafeBrowsing() {
+            safeBrowsingEnabled = !safeBrowsingEnabled;
+            
+            const icon = document.getElementById('safeBrowsingIcon');
+            const text = document.getElementById('safeBrowsingText');
+            const badge = document.getElementById('safeBrowsingBadge');
+            
+            if (safeBrowsingEnabled) {
+                icon.style.color = '#10b981';
+                text.textContent = 'Protection Active';
+                badge.textContent = 'ON';
+                badge.className = 'dashboard-card-badge badge-active';
+            } else {
+                icon.style.color = '#9ca3af';
+                text.textContent = 'Tap to Enable';
+                badge.textContent = 'OFF';
+                badge.className = 'dashboard-card-badge badge-inactive';
+            }
+        }
+
+        // Modal Management
+        function showModal(type) {
+            if (type === 'ghibah') {
+                document.getElementById('ghibahModal').classList.remove('hidden');
+            } else if (type === 'contentBlock') {
+                document.getElementById('contentBlockModal').classList.remove('hidden');
+            }
+        }
+
+        function hideModal(type) {
+            if (type === 'ghibah') {
+                document.getElementById('ghibahModal').classList.add('hidden');
+            } else if (type === 'contentBlock') {
+                document.getElementById('contentBlockModal').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
